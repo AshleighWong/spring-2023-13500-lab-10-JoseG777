@@ -6,57 +6,57 @@ class Time
 public:
     int h;
     int m;
-
-    void printTime(Time time)
-    {
-        std::cout << h << ":" << m << "\n";
-    }
-
-    int minutesSinceMidnight(Time time)
-    {
-        int minutes = (time.h * 60) + time.m;
-        return minutes;
-    }
-
-    int minutesUntil(Time earlier, Time later)
-    {
-        int minUntil;
-        int minLater = (later.h * 60) + later.m;
-        int minEarlier = (earlier.h * 60) + earlier.m;
-        if (minLater < minEarlier)
-        {
-            minLater += 24 * 60;
-            minUntil = minLater - minEarlier;
-        }
-        else
-        {
-            minUntil = minLater - minLater;
-        }
-        return minUntil;
-    }
-
-    Time addMinutes(Time time0, int min)
-    {
-        Time newTime = time0;
-        int h;
-        int m;
-        if (min % 60 == 0)
-        {
-            newTime.h += min / 60;
-        }
-        else
-        {
-            newTime.h += min / 60;
-            newTime.m += min % 60;
-        }
-        if (newTime.m > 59)
-        {
-            newTime.h += newTime.m / 60;
-            newTime.m = newTime.m % 60;
-        }
-        return newTime;
-    }
 };
+
+void printTime(Time time)
+{
+    std::cout << time.h << ":" << time.m << "\n";
+}
+
+int minutesSinceMidnight(Time time)
+{
+    int minutes = (time.h * 60) + time.m;
+    return minutes;
+}
+
+int minutesUntil(Time earlier, Time later)
+{
+    int minUntil;
+    int minLater = (later.h * 60) + later.m;
+    int minEarlier = (earlier.h * 60) + earlier.m;
+    if (minLater < minEarlier)
+    {
+        minLater += 24 * 60;
+        minUntil = minLater - minEarlier;
+    }
+    else
+    {
+        minUntil = minLater - minLater;
+    }
+    return minUntil;
+}
+
+Time addMinutes(Time time0, int min)
+{
+    Time newTime = time0;
+    int h;
+    int m;
+    if (min % 60 == 0)
+    {
+        newTime.h += min / 60;
+    }
+    else
+    {
+        newTime.h += min / 60;
+        newTime.m += min % 60;
+    }
+    if (newTime.m > 59)
+    {
+        newTime.h += newTime.m / 60;
+        newTime.m = newTime.m % 60;
+    }
+    return newTime;
+}
 
 enum Genre
 {
@@ -81,14 +81,6 @@ public:
     Movie movie;
     Time startTime;
 };
-
-Movie movie1 = {"Back to the Future", COMEDY, 116};
-Movie movie2 = {"Black Panther", ACTION, 134};
-Movie movie3 = {"TEST", ACTION, 73};
-
-TimeSlot morning = {movie1, {9, 15}};
-TimeSlot daytime = {movie2, {12, 15}};
-TimeSlot evening = {movie2, {16, 45}};
 
 void printMovie(Movie mv)
 {
@@ -117,9 +109,8 @@ void printMovie(Movie mv)
 void printTimeSlot(TimeSlot ts)
 {
     Time finish;
-    finish = ts.startTime.addMinutes(ts.startTime, ts.movie.duration);
+    finish = addMinutes(ts.startTime, ts.movie.duration);
     printMovie(ts.movie);
-    //[starts at 9:15, ends by 11:11]
     std::cout << " [starts at " << ts.startTime.h << ":" << ts.startTime.m << " , ends by " << finish.h << ":" << finish.m << "]"
               << "\n";
 }
@@ -127,14 +118,45 @@ void printTimeSlot(TimeSlot ts)
 TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie)
 {
     Time finish;
-    finish = ts.startTime.addMinutes(ts.startTime, ts.movie.duration);
+    finish = addMinutes(ts.startTime, ts.movie.duration);
     TimeSlot after = {nextMovie, finish};
     return after;
 }
 
+bool timeOverlap(TimeSlot ts1, TimeSlot ts2)
+{
+    bool Over;
+    Time end;
+    end = addMinutes(ts1.startTime, ts1.movie.duration);
+    if (end.h == ts2.startTime.h and end.m == ts2.startTime.m)
+    {
+        Over = false;
+    }
+    else if (end.h < ts2.startTime.h)
+    {
+        Over = false;
+    }
+    else
+    {
+        Over = true;
+    }
+    return Over;
+}
+
+Movie movie1 = {"Back to the Future", COMEDY, 116};
+Movie movie2 = {"Black Panther", ACTION, 134};
+Movie easyTest = {"Test", ACTION, 15};
+
+TimeSlot morning = {movie1, {9, 15}};
+TimeSlot daytime = {movie2, {12, 15}};
+TimeSlot evening = {movie2, {16, 45}};
+
+TimeSlot testing1 = {easyTest, {10, 15}};
+TimeSlot testing2 = {easyTest, {10, 30}};
+
 int main()
 {
-    /* Time now;
+    Time now;
     now.h = 17;
     now.m = 45;
 
@@ -143,7 +165,7 @@ int main()
     Time test = {17, 45};
     Time test1 = {01, 00};
 
-    int test2 = test.minutesUntil(test, test1);
+    int test2 = minutesUntil(test, test1);
 
     std::cout << test2 << "\n";
 
@@ -152,13 +174,21 @@ int main()
 
     std::cout << m / 60 << " " << m % 60 << "\n";
 
-    Time test3 = test.addMinutes(test, 45);
+    Time test3 = addMinutes(test, 45);
 
-    std::cout << test3.h << ":" << test3.m << "\n"; */
+    std::cout << test3.h << ":" << test3.m << "\n";
 
-    // printTimeSlot(morning);
+    TimeSlot test4 = scheduleAfter(morning, movie1);
 
-    TimeSlot test = scheduleAfter(morning, movie1);
+    std::cout << test4.startTime.m << ":" << test4.startTime.m << " " << test4.movie.title << "\n";
 
-    std::cout << test.startTime.h << ":" << test.startTime.m << "\n";
+    std::cout << timeOverlap(morning, evening) << "\n";
+
+    std::cout << timeOverlap(morning, testing1) << "\n";
+
+    std::cout << timeOverlap(testing1, testing2) << "\n";
+
+    printTimeSlot(morning);
+
+    printTimeSlot(testing1);
 }
