@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 class Time
 {
@@ -73,6 +74,10 @@ public:
     std::string title;
     Genre genre;
     int duration;
+    operator std::string()
+    {
+        return title;
+    }
 };
 
 class TimeSlot
@@ -113,6 +118,52 @@ void printTimeSlot(TimeSlot ts)
     printMovie(ts.movie);
     std::cout << " [starts at " << ts.startTime.h << ":" << ts.startTime.m << " , ends by " << finish.h << ":" << finish.m << "]"
               << "\n";
+}
+
+// Back to the Future COMEDY (116 min) [starts at 9:15 , ends by 11:11]
+std::string getTimeSlot(TimeSlot ts)
+{
+
+    std::string getTS = ts.movie.operator std::__1::string() + " ";
+
+    switch (ts.movie.genre)
+    {
+    case ACTION:
+        getTS += "ACTION (";
+        break;
+    case COMEDY:
+        getTS += "COMEDY (";
+        break;
+    case DRAMA:
+        getTS += "DRAMA (";
+        break;
+    case ROMANCE:
+        getTS += "ROMANCE (";
+        break;
+    case THRILLER:
+        getTS += "THRILLER (";
+        break;
+    }
+
+    std::stringstream movieDuration;
+    movieDuration << ts.movie.duration;
+    getTS += movieDuration.str() + " min) [starts at ";
+
+    std::stringstream startHour;
+    std::stringstream startMinute;
+    startHour << ts.startTime.h;
+    startMinute << ts.startTime.m;
+    getTS += startHour.str() + ":" + startMinute.str() + " , ends by ";
+
+    Time finish;
+    finish = addMinutes(ts.startTime, ts.movie.duration);
+    std::stringstream endHour;
+    std::stringstream endMinutes;
+    endHour << finish.h;
+    endMinutes << finish.m;
+    getTS += endHour.str() + ":" + endMinutes.str() + "]";
+
+    return getTS;
 }
 
 TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie)
@@ -191,4 +242,8 @@ int main()
     printTimeSlot(morning);
 
     printTimeSlot(testing1);
+
+    std::cout << getTimeSlot(morning) << "\n";
+
+    std::cout << getTimeSlot(testing1) << "\n";
 }
