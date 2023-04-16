@@ -1,13 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-
-class Time
-{
-public:
-    int h;
-    int m;
-};
+#include "funcs.h"
 
 void printTime(Time time)
 {
@@ -32,7 +26,7 @@ int minutesUntil(Time earlier, Time later)
     }
     else
     {
-        minUntil = minLater - minLater;
+        minUntil = minLater - minEarlier;
     }
     return minUntil;
 }
@@ -59,34 +53,6 @@ Time addMinutes(Time time0, int min)
     return newTime;
 }
 
-enum Genre
-{
-    ACTION,
-    COMEDY,
-    DRAMA,
-    ROMANCE,
-    THRILLER
-};
-
-class Movie
-{
-public:
-    std::string title;
-    Genre genre;
-    int duration;
-    operator std::string()
-    {
-        return title;
-    }
-};
-
-class TimeSlot
-{
-public:
-    Movie movie;
-    Time startTime;
-};
-
 void printMovie(Movie mv)
 {
     std::string g;
@@ -111,16 +77,15 @@ void printMovie(Movie mv)
     std::cout << mv.title << " " << g << " (" << mv.duration << " min)";
 }
 
-void printTimeSlot(TimeSlot ts)
+/* void printTimeSlot(TimeSlot ts)
 {
     Time finish;
     finish = addMinutes(ts.startTime, ts.movie.duration);
     printMovie(ts.movie);
     std::cout << " [starts at " << ts.startTime.h << ":" << ts.startTime.m << " , ends by " << finish.h << ":" << finish.m << "]"
               << "\n";
-}
+} */
 
-// Back to the Future COMEDY (116 min) [starts at 9:15 , ends by 11:11]
 std::string getTimeSlot(TimeSlot ts)
 {
 
@@ -192,58 +157,4 @@ bool timeOverlap(TimeSlot ts1, TimeSlot ts2)
         Over = true;
     }
     return Over;
-}
-
-Movie movie1 = {"Back to the Future", COMEDY, 116};
-Movie movie2 = {"Black Panther", ACTION, 134};
-Movie easyTest = {"Test", ACTION, 15};
-
-TimeSlot morning = {movie1, {9, 15}};
-TimeSlot daytime = {movie2, {12, 15}};
-TimeSlot evening = {movie2, {16, 45}};
-
-TimeSlot testing1 = {easyTest, {10, 15}};
-TimeSlot testing2 = {easyTest, {10, 30}};
-
-int main()
-{
-    Time now;
-    now.h = 17;
-    now.m = 45;
-
-    std::cout << now.h << ":" << now.m << "\n";
-
-    Time test = {17, 45};
-    Time test1 = {01, 00};
-
-    int test2 = minutesUntil(test, test1);
-
-    std::cout << test2 << "\n";
-
-    int h = 10;
-    int m = 323;
-
-    std::cout << m / 60 << " " << m % 60 << "\n";
-
-    Time test3 = addMinutes(test, 45);
-
-    std::cout << test3.h << ":" << test3.m << "\n";
-
-    TimeSlot test4 = scheduleAfter(morning, movie1);
-
-    std::cout << test4.startTime.m << ":" << test4.startTime.m << " " << test4.movie.title << "\n";
-
-    std::cout << timeOverlap(morning, evening) << "\n";
-
-    std::cout << timeOverlap(morning, testing1) << "\n";
-
-    std::cout << timeOverlap(testing1, testing2) << "\n";
-
-    printTimeSlot(morning);
-
-    printTimeSlot(testing1);
-
-    std::cout << getTimeSlot(morning) << "\n";
-
-    std::cout << getTimeSlot(testing1) << "\n";
 }
