@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "movie.h"
+// #include "movie.h"
 #include "time.h"
 #include "timeslot.h"
 
@@ -79,7 +79,7 @@ Time addMinutes(Time time0, int min)
     std::cout << mv.title << " " << g << " (" << mv.duration << " min)";
 } */
 
-/* void printTimeSlot(TimeSlot ts)
+/*void printTimeSlot(TimeSlot ts)
 {
     Time finish;
     finish = addMinutes(ts.startTime, ts.movie.duration);
