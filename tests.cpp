@@ -1,9 +1,12 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "funcs.h"
+#include "movie.h"
+#include "time.h"
+#include "timeslot.h"
 #include <iostream>
 #include <string>
 #include <sstream>
+
 Movie movie1 = {"Back to the Future", COMEDY, 116};
 Movie movie2 = {"Black Panther", ACTION, 134};
 Movie easyTest = {"Test", ACTION, 15};

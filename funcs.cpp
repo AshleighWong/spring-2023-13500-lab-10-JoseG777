@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "funcs.h"
+#include "movie.h"
+#include "time.h"
+#include "timeslot.h"
 
 void printTime(Time time)
 {
@@ -53,7 +55,7 @@ Time addMinutes(Time time0, int min)
     return newTime;
 }
 
-void printMovie(Movie mv)
+/* void printMovie(Movie mv)
 {
     std::string g;
     switch (mv.genre)
@@ -75,7 +77,7 @@ void printMovie(Movie mv)
         break;
     }
     std::cout << mv.title << " " << g << " (" << mv.duration << " min)";
-}
+} */
 
 /* void printTimeSlot(TimeSlot ts)
 {

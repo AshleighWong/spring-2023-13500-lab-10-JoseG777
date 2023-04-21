@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "funcs.h"
+#include "movie.h"
+#include "time.h"
+#include "timeslot.h"
 
 Movie movie1 = {"Back to the Future", COMEDY, 116};
 Movie movie2 = {"Black Panther", ACTION, 134};
