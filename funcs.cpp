@@ -91,7 +91,7 @@ Time addMinutes(Time time0, int min)
 std::string getTimeSlot(TimeSlot ts)
 {
 
-    std::string getTS = ts.movie.operator std::__1::string() + " ";
+    std::string getTS = ts.movie.title + " ";
 
     switch (ts.movie.genre)
     {

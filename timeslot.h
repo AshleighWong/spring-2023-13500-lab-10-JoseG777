@@ -18,10 +18,6 @@ public:
     std::string title;
     Genre genre;
     int duration;
-    operator std::string()
-    {
-        return title;
-    }
 };
 
 class TimeSlot
